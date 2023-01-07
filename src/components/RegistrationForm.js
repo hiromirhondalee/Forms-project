@@ -3,7 +3,11 @@ import { database } from "../firebase";
 import { ref, push, child, update } from "firebase/database";
 import "./style.css";
 
+import { useForm } from "react-hook-form";
+
 export default function RegistrationForm () {
+  const {register, handleSubmit ,formState: {errors}}= useForm();
+
   const [firstName, setFirstName] = useState (null);
   const [lastName, setLastName] = useState (null);
   const [email, setEmail] = useState (null);
@@ -29,7 +33,7 @@ export default function RegistrationForm () {
        }
   }
 
-  const handleSubmit =() => {
+  const onSubmit =() => {
     let obj ={
       firstName: firstName,
       lastName:lastName,
@@ -55,10 +59,13 @@ export default function RegistrationForm () {
               className="form-input"
               type="text"
               id="firstName"
+              {...register("firstName", { required: true })}
               placeholder="First Name"
               value={firstName}
               onChange={(dataform) => handleInputChange(dataform)}
+              
             />
+            
           </div>
           <div className="lastname">
             <label className="form-label" for="lastName">
@@ -68,6 +75,7 @@ export default function RegistrationForm () {
               className="form-input"
               type="text"
               id="lastName"
+              {...register("lastName")}
               placeholder="Last Name"
               value={lastName}
               onChange={(dataform) => handleInputChange(dataform)}
@@ -81,6 +89,7 @@ export default function RegistrationForm () {
               className="form-input"
               type="email"
               id="email"
+              {...register("email")}
               placeholder="Email"
               value={email}
               onChange={(dataform) => handleInputChange(dataform)}
@@ -94,6 +103,7 @@ export default function RegistrationForm () {
               className="form-input"
               type="password"
               id="password"
+              {...register("password")}
               placeholder="Password"
               value={password}
               onChange={(dataform) => handleInputChange(dataform)}
@@ -107,6 +117,7 @@ export default function RegistrationForm () {
               className="form-input"
               type="password"
               id="confirmPassword"
+              {...register("confirmPassword")}
               placeholder="Confirm Password"
               value={confirmPassword}
               onChange={(dataform) => handleInputChange(dataform)}
@@ -114,7 +125,11 @@ export default function RegistrationForm () {
           </div>
         </div>
         <div class="footer">
-          <button type="submit" className="btn btn-primary" onClick={()=>handleSubmit()}>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={() => handleSubmit()}
+          >
             Registration
           </button>
         </div>
